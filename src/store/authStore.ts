@@ -1,24 +1,6 @@
 import {create} from 'zustand';
 import axios from 'axios';
-
-interface User {
-    firstName: string;
-    lastName: string;
-    email: string;
-}
-
-interface AuthState {
-    user: User | null;
-    accessToken: string | null;
-    refreshToken: string | null;
-    isLoading: boolean;
-    error: string | null;
-    login: (username: string, password: string) => Promise<void>;
-    logout: () => void;
-    refreshSession: () => Promise<void>;
-    getCurrentUser: () => Promise<void>;
-    init: () => void;
-}
+import {AuthState} from "@/types/auth";
 
 export const useAuthStore = create<AuthState>((set, get) => ({
     user: null,
