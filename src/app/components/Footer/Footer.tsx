@@ -10,8 +10,8 @@ export default function Footer() {
     return (
         <footer className={styles.footer}>
             <div className={styles.container}>
-                <span>&copy; {year}</span>
-                {user && <span>Logged as {user.email}</span>}
+                <span>&copy; {year} Abelohost</span>
+                {user && <span className={styles.loggedIn}>Logged as {user.email}</span>}
             </div>
         </footer>
     );

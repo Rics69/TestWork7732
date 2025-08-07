@@ -2,11 +2,29 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  align-items: center;
 
   input,
   select {
-    padding: 0.5rem;
+    padding: 0.6rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
     font-size: 1rem;
+    background-color: #fff;
+    transition: border-color 0.2s;
+
+    &:focus {
+      border-color: #0070f3;
+      outline: none;
+    }
+  }
+
+  input {
+    flex: 1 1 200px;
+  }
+
+  select {
+    flex: 1 1 180px;
   }
 }

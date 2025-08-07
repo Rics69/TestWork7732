@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useProductStore } from '@/store/productStore';
+import {useEffect} from 'react';
+import {useProductStore} from '@/store/productStore';
 import useDebounce from '@/hooks/useDebounce';
 import LoadingOverlay from "@/app/components/LoadingOverlay/LoadingOverlay";
 import Controls from "@/app/components/Controls/Controls";
@@ -42,9 +42,9 @@ export default function HomePage() {
 
     return (
         <div className={styles.wrapper}>
-            {isLoading && <LoadingOverlay />}
-            <Controls />
-            <ProductGrid products={products} isLoading={isLoading} />
+            {isLoading && <LoadingOverlay/>}
+            <Controls/>
+            <ProductGrid products={products} isLoading={isLoading}/>
             <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}

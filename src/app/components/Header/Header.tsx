@@ -10,12 +10,15 @@ export default function Header() {
     return (
         <header className={styles.header}>
             <div className={styles.container}>
-                <h1 className={styles.logo}>MyApp</h1>
+                <Link href="/" className={styles.logo}>
+                    Abelohost
+                </Link>
+
                 {user ? (
                     <div className={styles.userSection}>
-            <span>
-              {user.firstName} {user.lastName}
-            </span>
+                        <span className={styles.username}>
+                            {user.firstName} {user.lastName}
+                        </span>
                         <button onClick={logout} className={styles.logout}>
                             Logout
                         </button>

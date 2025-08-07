@@ -1,6 +1,7 @@
 import {Category, Product, ProductState} from "@/types/product";
 import axios from "axios";
 import {create} from "zustand";
+import {API_PRODUCTS} from "@/constants/api";
 
 export const useProductStore = create<ProductState>((set, get) => ({
     products: [],
@@ -17,43 +18,43 @@ export const useProductStore = create<ProductState>((set, get) => ({
     pendingProducts: null,
 
     setSearch: (q) => {
-        set({ search: q, skip: 0 });
+        set({search: q, skip: 0});
     },
     setCategory: (catSlug) => {
-        set({ category: catSlug, skip: 0 });
+        set({category: catSlug, skip: 0});
     },
     setSort: (sortBy, order) => {
-        set({ sortBy, order, skip: 0 });
+        set({sortBy, order, skip: 0});
     },
     setPage: (page) => {
-        const { limit } = get();
-        set({ skip: (page - 1) * limit });
+        const {limit} = get();
+        set({skip: (page - 1) * limit});
     },
 
     fetchCategories: async () => {
         try {
-            const res = await axios.get<Category[]>('https://dummyjson.com/products/categories');
-            set({ categories: res.data });
+            const res = await axios.get<Category[]>(API_PRODUCTS.CATEGORIES);
+            set({categories: res.data});
         } catch (err: any) {
             console.error('Failed load categories', err);
         }
     },
 
     fetchProducts: async () => {
-        set({ isLoading: true, error: null });
+        set({isLoading: true, error: null});
 
         try {
-            const { limit, skip, search, category, sortBy, order } = get();
+            const {limit, skip, search, category, sortBy, order} = get();
             let url = '';
-            const params: Record<string, string | number> = { limit, skip };
+            const params: Record<string, string | number> = {limit, skip};
 
             if (search) {
-                url = 'https://dummyjson.com/products/search';
+                url = API_PRODUCTS.SEARCH;
                 params.q = search;
             } else if (category) {
-                url = `https://dummyjson.com/products/category/${encodeURIComponent(category)}`;
+                url = API_PRODUCTS.BY_CATEGORY(category);
             } else {
-                url = 'https://dummyjson.com/products';
+                url = API_PRODUCTS.ALL;
             }
 
             if (sortBy) {

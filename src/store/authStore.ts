@@ -1,6 +1,7 @@
 import {create} from 'zustand';
 import axios from 'axios';
 import {AuthState} from "@/types/auth";
+import {API_AUTH} from "@/constants/api";
 
 export const useAuthStore = create<AuthState>((set, get) => ({
     user: null,
@@ -12,7 +13,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     login: async (username, password) => {
         set({isLoading: true, error: null});
         try {
-            const res = await axios.post('https://dummyjson.com/auth/login', {
+            const res = await axios.post(API_AUTH.LOGIN, {
                 username,
                 password,
                 expiresInMins: 30,
@@ -44,15 +45,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     },
 
     refreshSession: async () => {
-        const rt = localStorage.getItem('refreshToken');
-        if (!rt) {
+        const refreshToken = localStorage.getItem('refreshToken');
+        if (!refreshToken) {
             get().logout();
             return;
         }
 
         try {
-            const res = await axios.post('https://dummyjson.com/auth/refresh', {
-                refreshToken: rt,
+            const res = await axios.post(API_AUTH.REFRESH, {
+                refreshToken: refreshToken,
                 expiresInMins: 30,
             });
 
@@ -68,12 +69,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     },
 
     getCurrentUser: async () => {
-        const at = localStorage.getItem('accessToken');
-        if (!at) return;
+        const accessToken = localStorage.getItem('accessToken');
+        if (!accessToken) return;
 
         try {
-            const res = await axios.get('https://dummyjson.com/auth/me', {
-                headers: {Authorization: `Bearer ${at}`},
+            const res = await axios.get(API_AUTH.ME, {
+                headers: {Authorization: `Bearer ${accessToken}`},
             });
 
             const {firstName, lastName, email} = res.data;
@@ -82,7 +83,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             await get().refreshSession();
             const newAt = localStorage.getItem('accessToken');
             if (newAt) {
-                const retry = await axios.get('https://dummyjson.com/auth/me', {
+                const retry = await axios.get(API_AUTH.ME, {
                     headers: {Authorization: `Bearer ${newAt}`},
                 });
                 const {firstName, lastName, email} = retry.data;
@@ -94,11 +95,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     },
 
     init: () => {
-        const at = localStorage.getItem('accessToken');
-        const rt = localStorage.getItem('refreshToken');
-        if (!at || !rt) return;
+        const accessToken = localStorage.getItem('accessToken');
+        const refreshToken = localStorage.getItem('refreshToken');
+        if (!accessToken || !refreshToken) return;
 
-        set({accessToken: at, refreshToken: rt});
+        set({accessToken: accessToken, refreshToken: refreshToken});
 
         get().getCurrentUser();
 

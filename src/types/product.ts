@@ -14,14 +14,14 @@ export interface ProductState {
     skip: number;
     search: string;
     category: string;
-    sortBy: 'price' | 'title' | '';
+    sortBy: 'price' | '';
     order: 'asc' | 'desc' | '';
     isLoading: boolean;
     error: string | null;
 
     setSearch: (q: string) => void;
     setCategory: (catSlug: string) => void;
-    setSort: (sortBy: 'price' | 'title', order: 'asc' | 'desc') => void;
+    setSort: (sortBy: 'price', order: 'asc' | 'desc') => void;
     setPage: (page: number) => void;
 
     fetchProducts: () => Promise<void>;

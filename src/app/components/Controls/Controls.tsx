@@ -1,6 +1,6 @@
 'use client';
 
-import { useProductStore } from '@/store/productStore';
+import {useProductStore} from '@/store/productStore';
 import styles from './Controls.module.scss';
 
 export default function Controls() {
